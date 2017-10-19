@@ -1,0 +1,34 @@
+各種ライブラリのインストール
+========================================
+
+.. image:: chainer_red_h.png
+
+:samp:`Windows` の場合
+---------------------------------
+
+:samp:`PowerShell` を管理者として起動し、以下のようにコマンドを実行してください。
+
+.. code-block:: shell
+
+    (PS) conda install chainer # 深層学習
+    (PS) conda install numpy # 数学の諸機能（とくに行列演算）
+    (PS) conda install scikit-learn # 機械学習のための便利ライブラリ
+    (PS) conda install scipy # scikit-learnを使うためのライブラリ
+    (PS) conda install pandas # 入出力データを整える
+    (PS) conda install matplotlib # グラフや図形の表示
+
+もし、 :command:`conda` がうまく動作しないようであれば代わりに :command:`pip` を使ってみてください。
+
+:samp:`Mac` の場合
+--------------------------
+
+端末を開いて :command:`pyenv` で :samp:`python3` に切り替え、以下のようにコマンドを実行してください。
+
+.. code-block:: shell
+
+    $ sudo pip install chainer # 深層学習
+    $ sudo pip install numpy # 数学の諸機能（とくに行列演算）
+    $ sudo pip install scikit-learn # 機械学習のための便利ライブラリ
+    $ sudo pip install scipy # scikit-learnを使うためのライブラリ
+    $ sudo pip install pandas # 入出力データを整える
+    $ sudo pip install matplotlib # グラフや図形の表示
