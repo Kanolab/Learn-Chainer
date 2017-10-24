@@ -12,3 +12,4 @@ Welcome to learn_chainer's documentation!
 
    overview/lib.rst   
    setup/lib.rst
+   howtochain/lib.rst
