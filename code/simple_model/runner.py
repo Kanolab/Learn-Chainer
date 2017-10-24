@@ -1,13 +1,17 @@
 import simple
 import numpy
+from random import random
 
-"""
-深層学習のコード
-Xが入力で、yが出力です。
-デフォルトでは関数 f(x) = 2*x を学習するようにしています。
-"""
 if __name__ == "__main__":
-    X = numpy.random.rand(10000) * 100
+    """
+    深層学習のコード
+    Xが入力で、yが出力です。
+    デフォルトでは関数 f(x) = 2*x を学習するようにしています。
+    """
+    X = []
+    for i in range(10000):
+        X.append(random() * 100)
+    X = numpy.array(X)
     X = X.astype(numpy.float32)
     X = numpy.expand_dims(X, axis=1)
 

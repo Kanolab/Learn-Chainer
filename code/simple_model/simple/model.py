@@ -2,11 +2,12 @@ import chainer
 import chainer.links as L
 import chainer.functions as F
 
-"""
-推論器のクラスです。
-デフォルトでは全結合層３つで構成されています。
-"""
+
 class SimplePredictor(chainer.Chain):
+    """
+    推論器のクラスです。
+    デフォルトでは全結合層３つで構成されています。
+    """
     def __init__(self, unit_num1, unit_num2, output_num):
         super(SimplePredictor, self).__init__()
         with self.init_scope():
@@ -20,12 +21,12 @@ class SimplePredictor(chainer.Chain):
         y = self.l3(h2)
         return y
 
-"""
-深層学習のモデルのクラスです。
-デフォルトではSimplePredictorを推論機に使い
-回帰的に実数の値を返す関数を学習するようになっています。
-"""
 class SimpleRegression(chainer.Chain):
+    """
+    深層学習のモデルのクラスです。
+    デフォルトではSimplePredictorを推論機に使い
+    回帰的に実数の値を返す関数を学習するようになっています。
+    """
     def __init__(self, predictor):
         super(SimpleRegression, self).__init__()
         with self.init_scope():
