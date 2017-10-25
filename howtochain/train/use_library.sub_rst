@@ -47,15 +47,14 @@
 
 さて、シェルを開いてpythonコマンドを使ってプログラムを起動してみましょう。
 
-.. column:: シェルとは？
-
-    Windowsではpowershell.exeやcmd.exeで、MacやLinuxではterminalで開かれるプログラムのことを言います。
-
-    またシェルを表示する画面を端末（terminal)と呼び、ここから様々なコマンドを実行できます。VSCodeを使っている場合は :samp:`表示 -> 統合ターミナル` からシェルを利用できます。
-
-
 .. code-block:: shell
 
     $ cd runner.pyのあるディレクトリ
     $ python runner.py
     Hello! 0.7109309030253816.
+
+.. column:: シェルとは？
+
+    Windowsではpowershell.exeやcmd.exeで、MacやLinuxではterminalで開かれるプログラムのことを言います。
+
+    またシェルを表示する画面を端末（terminal)と呼び、ここから様々なコマンドを実行できます。VSCodeを使っている場合は :samp:`表示 -> 統合ターミナル` からシェルを利用できます。
