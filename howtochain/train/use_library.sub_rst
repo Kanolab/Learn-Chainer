@@ -1,18 +1,9 @@
-推論器の学習
-====================
-
-推論器は学習後、最終的に目的の関数を近似したものになります。
-
-関数には入力に対応した出力がありますが、学習時に入力とともに出力を与える学習を教師付き学習と言います。このドキュメントではこの教師付き学習を扱っていきます。
-
-ここではまず入力に対応する出力のある何らかの関数を考えてそれを推論器に学習させてみましょう。ここで言う関数は例えば :math:`f(x)=2x` がそれにあたります。
-
 ライブラリの使用
 ------------------------
 
 添付ファイルの :samp:`code.zip` の :samp:`simple_model` ディレクトリ（フォルダのこと）に学習を試すためのソースコードを用意しておきました。
 
-まずは :samp:`simple_model` というフォルダに :samp:`runner.py` というファイルを作ってみましょう。
+まずは :samp:`simple_model` というフォルダに :samp:`runner.py` というファイルを作ります。
 
 :samp:`python` は他の言語と同じように初めは最低限の機能しか使うことが出来ません。
 
@@ -34,7 +25,7 @@
     import numpy
     from random import random
 
-    simple.hello("Mike")
+    simple.hello("Mike") # NOTE: Pythonでは";"を行末につけない。
 
 また :command:`from ~ import ~` ではライブラリを追加したあと、ライブラリ名を省略して呼び出すことが可能になります。
 
@@ -48,9 +39,23 @@
     import numpy
     from random import random
 
-    #simple.hello("Mike")
+    #simple.hello("Mike") # NOTE: Pythonでは";"を行末につけない。
     """
     random.random() と書かなくても呼び出すことが出来る
     """
     simple.hello(random()) # random() は乱数を返す関数
 
+さて、シェルを開いてpythonコマンドを使ってプログラムを起動してみましょう。
+
+.. column:: シェルとは？
+
+    Windowsではpowershell.exeやcmd.exeで、MacやLinuxではterminalで開かれるプログラムのことを言います。
+
+    またシェルを表示する画面を端末（terminal)と呼び、ここから様々なコマンドを実行できます。VSCodeを使っている場合は :samp:`表示 -> 統合ターミナル` からシェルを利用できます。
+
+
+.. code-block:: shell
+
+    $ cd runner.pyのあるディレクトリ
+    $ python runner.py
+    Hello! 0.7109309030253816.

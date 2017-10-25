@@ -28,4 +28,4 @@
 
     \clearpage
 
-.. include:: input.sub_rst
+.. include:: train/mod.sub_rst
