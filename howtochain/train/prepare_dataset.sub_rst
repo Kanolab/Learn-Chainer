@@ -1,0 +1,119 @@
+データセットの準備
+-------------------------
+
+次に学習させるためのデータを用意しましょう。このドキュメントでは教師付き学習を扱うため、入力と出力、両方を用意します。
+
+簡単な例としてはじめに :math:`f(x)=2*x` を学習させてみましょう。つまり入力に任意の実数を取って、出力にはその数に2を掛けたものを考えてみます。
+
+任意の実数のような入力は :samp:`Python` のライブラリrandomのrandom()関数を使えば簡単に生成することが出来ます。
+
+さきほどの :samp:`runner.py` を書き換えてみましょう。
+
+.. raw:: latex
+
+    \clearpage
+
+.. code-block:: python
+
+    import simple
+    import numpy
+    from random import random
+
+    def main(): # main()関数を定義する。
+        """
+        main関数の内部であるということを、 {} ではなく
+        空白（こういった空白をインデントと呼ぶ）で表している。
+        """
+        print(random() * 100) # 任意の実数を生成して表示する。random()では0~1までの実数を生成できる。
+
+    if __name__ == "__main__":
+        main()
+
+
+.. column:: if __name__ == "__main__": について
+
+    Pythonには必ず初めに実行される関数と言ったものがなく、基本的には起動したpythonスクリプトが上から順に実行されます。
+
+    Pythonスクリプトには暗黙的に宣言されている変数が存在し、 :samp:`__name__` もその中の一つです。
+
+    :samp:`__name__` は直接実行された時だけ、その中の値が \"__main__\" という文字列になり
+
+    そうなっているかどうかでmain関数を実行するか否か（つまりライブラリとして使用されているか、直接実行されているのか）を判定するのに使われます。
+
+    今回はその習わしに従った表記にしました。
+
+上記のようにして任意の実数が生成できます。しかし実際に推論器を学習させるためにはこういった実数が多数必要になります。
+
+まずは実数をいくつかpythonのリストに入れてみましょう。
+
+.. code-block:: python
+
+    import simple
+    import numpy
+    from random import random
+
+    def main():
+        X = [] # 空のリストにXという名前をつける（変数宣言）
+        X.append(random()) # 任意の実数を生成してリストに追加する。
+        X.append(random())
+
+    if __name__ == "__main__":
+        main()
+
+深層学習には多くのデータが必要になりますが、これをいちいち一行ずつ追加するのは無理があります。
+
+ここで :samp:`for` 文の出番です。
+
+Pythonの :samp:`for` 文は C言語などのように例えば変数 i を1ずつ大きくしていき、それを使って配列の各要素にアクセスするといったものではありません。
+
+:samp:`for` 文はPythonでは配列の要素を前から１つずつ取り出す形で進みます。
+
+.. code-block:: python
+
+    import simple
+    import numpy
+    from random import random
+
+    def main():
+        X = [] # 空のリストにXという名前をつける(変数宣言）
+        list = ["hoge","piyo","nyan"] # 文字列のリスト
+        for num in list: # listの前から順に値を取り出す
+            """
+            実際にはlistの中の値は使わないが、この処理はlistの要素数分、つまり3回だけ行われる。
+            """
+            X.append(random())
+        # for文の処理を全て終えると3個の実数がXの中に入ることになる
+
+        X = [] # 空のリストにXという名前をつける。変数は再宣言することが出来る
+        list = range(10000) # 0から10000-1までの数列のリスト。変数を再宣言するときは別の型でもいい
+        for num in list:
+            X.append(random())
+        # for文の処理を全て終えると10000個の実数がXの中に入ることになる
+
+    if __name__ == "__main__":
+        main()
+
+この入力をChainerで扱うためにはさらにひと手間準備が必要です。Chainerはnumpyのarrayを扱うため、リストXをnumpyのarrayに変換します。
+
+次にXの中の各値をnumpy.float32という方に変換する必要があります。最後に各値をスカラー値ではなく1次元ベクトルにすればデータの整形が完了します。
+
+さらにこの入力から出力を作成すればデータセットの完成です。
+
+.. code-block:: python
+
+    import simple
+    import numpy
+    from random import random
+
+    def main():
+        X = []
+        for num in range(10000):
+            X.append(random())
+        X = numpy.array(X) # numpyのarrayに変換
+        X = X.astype(float32) # 各値をfloat32に変換
+        X = numpy.expand_dims(X, axis=1) # 各値をスカラー値から1次元ベクトルに変換
+
+        y = 2 * X # 単純にスカラー値を掛けあわせれば出力が出来る。
+
+    if __name__ == "__main__":
+        main()

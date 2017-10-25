@@ -11,9 +11,13 @@
 
 .. code-block:: python
 
-    import simple
-    import numpy
-    from random import random
+    import simple # 推論器のモデルクラスなどが書かれたpythonファイル
+    import numpy # 数学の操作（行列の演算など）を扱うためのライブラリ
+    from random import random # 乱数を扱うためのライブラリ
+
+.. column:: pythonのコメント
+
+    pythonのコメントは"#"で始まります。また文字列を表す記法をそのままコメントとして使うことも出来ます。
 
 :command:`import` で指定した :samp:`ライブラリや現在のディレクトリのpythonファイルやディレクトリ` の機能を使えるようになります。
 
@@ -21,9 +25,9 @@
 
 .. code-block:: python
     
-    import simple
-    import numpy
-    from random import random
+    import simple # 推論器のモデルクラスなどが書かれたpythonファイル
+    import numpy # 数学の操作（行列の演算など）を扱うためのライブラリ
+    from random import random # 乱数を扱うためのライブラリ
 
     simple.hello("Mike") # NOTE: Pythonでは";"を行末につけない。
 
@@ -35,21 +39,27 @@
 
 .. code-block:: python
     
-    import simple
-    import numpy
-    from random import random
+    import simple # 推論器のモデルクラスなどが書かれたpythonファイル
+    import numpy # 数学の操作（行列の演算など）を扱うためのライブラリ
+    from random import random # 乱数を扱うためのライブラリ
 
-    #simple.hello("Mike") # NOTE: Pythonでは";"を行末につけない。
+    '''
+    NOTE:
+        pythonでは行末に";"をつけない
+        また、文字列を表すための囲いは「'」でも「"」でもどちらでもいい
+        （ちなみにこれは文字列によるコメント）
+    '''
+    #simple.hello('Mike')
     """
     random.random() と書かなくても呼び出すことが出来る
     """
-    simple.hello(random()) # random() は乱数を返す関数
+    simple.hello(random()) # random() はランダムな実数を返す関数
 
 さて、シェルを開いてpythonコマンドを使ってプログラムを起動してみましょう。
 
 .. code-block:: shell
 
-    $ cd runner.pyのあるディレクトリ
+    $ cd simple_modelディレクトリまでのパス
     $ python runner.py
     Hello! 0.7109309030253816.
 

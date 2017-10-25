@@ -10,3 +10,5 @@
 .. include:: train/use_library.sub_rst
 
 .. include:: train/prepare_dataset.sub_rst
+
+.. include:: train/run.sub_rst

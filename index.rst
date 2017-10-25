@@ -7,7 +7,7 @@ Welcome to learn_chainer's documentation!
 =========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    overview/lib.rst   
