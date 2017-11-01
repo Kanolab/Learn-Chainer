@@ -10,7 +10,7 @@
 
 .. code-block:: shell
 
-    (PS) conda install chainer # 深層学習
+    (PS) conda install chainer # ニューラルネットワークのライブラリ
     (PS) conda install numpy # 数学の諸機能（とくに行列演算）
     (PS) conda install scikit-learn # 機械学習のための便利ライブラリ
     (PS) conda install scipy # scikit-learnを使うためのライブラリ
@@ -26,7 +26,7 @@
 
 .. code-block:: shell
 
-    $ sudo pip install chainer # 深層学習
+    $ sudo pip install chainer # ニューラルネットワークのライブラリ
     $ sudo pip install numpy # 数学の諸機能（とくに行列演算）
     $ sudo pip install scikit-learn # 機械学習のための便利ライブラリ
     $ sudo pip install scipy # scikit-learnを使うためのライブラリ

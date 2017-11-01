@@ -1,0 +1,12 @@
+推論器のモデルクラスの構成
+==================================
+
+.. image:: 3layer.png
+
+.. http://nkdkccmbr.hateblo.jp/entry/2016/10/06/222245#%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%AD%E3%83%B3
+
+前節ではモデルクラスはPythonディレクトリ :samp:`simple_model` のものを使いました。
+
+この節ではこれの作り方、つまりモデルクラスの作り方を説明していきます。
+
+.. include:: modelclass/struct_modelclass.sub_rst

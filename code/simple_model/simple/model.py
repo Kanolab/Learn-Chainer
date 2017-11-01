@@ -6,7 +6,7 @@ import chainer.functions as F
 class SimplePredictor(chainer.Chain):
     """
     推論器のクラスです。
-    デフォルトでは全結合層３つで構成されています。
+    デフォルトでは全結合層３つの間に活性化関数reluを入れて構成しています。
     """
     def __init__(self, unit_num1, unit_num2, output_num):
         super(SimplePredictor, self).__init__()
@@ -23,8 +23,8 @@ class SimplePredictor(chainer.Chain):
 
 class SimpleRegression(chainer.Chain):
     """
-    深層学習のモデルのクラスです。
-    デフォルトではSimplePredictorを推論機に使い
+    ニューラルネットワークを進めていくためのクラスです。
+    デフォルトではSimplePredictorを推論器に使い
     回帰的に実数の値を返す関数を学習するようになっています。
     """
     def __init__(self, predictor):

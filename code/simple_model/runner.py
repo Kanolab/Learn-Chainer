@@ -4,7 +4,7 @@ from random import random
 
 if __name__ == "__main__":
     """
-    深層学習のコード
+    ニューラルネットワークのコード
     Xが入力で、yが出力です。
     デフォルトでは関数 f(x) = 2*x を学習するようにしています。
     """
@@ -16,4 +16,4 @@ if __name__ == "__main__":
     X = numpy.expand_dims(X, axis=1)
 
     y = 2 * X
-    simple.run(X, y, 50.0, 100.0)
+    simple.run(X, y, 1.0, 2.0)

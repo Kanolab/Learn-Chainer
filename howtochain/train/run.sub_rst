@@ -13,3 +13,24 @@
     """
     simple.run(X, y, 50.0, 100.0)
     
+.. code-block:: python
+
+    # コード全体
+    import simple
+    import numpy
+    from random import random
+
+    def main():
+        X = []
+        for num in range(10000):
+            X.append(random())
+        X = numpy.array(X)
+        X = X.astype(float32)
+        X = numpy.expand_dims(X, axis=1)
+
+        y = 2 * X
+
+        simple.run(X, y, 50.0, 100.0)
+
+    if __name__ == "__main__":
+        main()
