@@ -3,6 +3,8 @@
 
 ここからは推論器を構成するPythonのclass（以下では単にクラスと呼びます）を定義していきます。
 
+では早速、推論器そのもののクラスを定義しましょう。今は詳しくは説明しませんが、ここではニューラルネットワークで使う層というものを定義していきます。
+
 main関数の定義は :samp:`def` キーワードを使って定義していました。
 
 .. code-block:: python
@@ -12,4 +14,15 @@ main関数の定義は :samp:`def` キーワードを使って定義していま
 
 クラスの定義は :samp:`class` キーワードを使って定義します。
 
-では早速、推論器そのもののクラスを定義しましょう。今は詳しくは説明しませんが、ここではニューラルネットワークで使う層で使うというものを定義していきます
+.. code-block:: python
+
+    class OriginalPredictor():
+        
+このままではChainerの機能を使えないので、ChainerをインポートしてOriginalPredictorクラスがChainerのクラスchainer.Chainを継承するようにします。
+
+.. code-block:: python
+
+    import chainer
+
+    class OriginalPredictor(chainer.Chain):
+
