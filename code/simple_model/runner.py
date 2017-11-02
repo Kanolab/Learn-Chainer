@@ -2,7 +2,7 @@ import simple
 import numpy
 from random import random
 
-if __name__ == "__main__":
+def main():
     """
     ニューラルネットワークのコード
     Xが入力で、yが出力です。
@@ -17,3 +17,6 @@ if __name__ == "__main__":
 
     y = 2 * X
     simple.run(X, y, 1.0, 2.0)
+
+if __name__ == "__main__":
+    main()

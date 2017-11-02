@@ -1,9 +1,13 @@
 推論器の層の構成
-========================
+-----------------------------
 
 ここからは推論器を構成するPythonのclass（以下では単にクラスと呼びます）を定義していきます。
 
+まずは推論機のためのディレクトリを作っておきましょう。ここではoriginalディレクトリとします。
+
 では早速、推論器そのもののクラスを定義しましょう。今は詳しくは説明しませんが、ここではニューラルネットワークで使う層というものを定義していきます。
+
+そのためにまずクラスを定義するためのファイルmodel.pyを作っておきます。
 
 main関数の定義は :samp:`def` キーワードを使って定義していました。
 
@@ -18,7 +22,9 @@ main関数の定義は :samp:`def` キーワードを使って定義していま
 
     class OriginalPredictor():
         
-このままではChainerの機能を使えないので、ChainerをインポートしてOriginalPredictorクラスがChainerのクラスchainer.Chainを継承するようにします。
+このままではChainerの機能を使えないので、まずはChainerをインポートします。
+
+次にOriginalPredictorクラスがChainerのクラスchainer.Chainを継承するようにします。
 
 .. code-block:: python
 
@@ -26,3 +32,91 @@ main関数の定義は :samp:`def` キーワードを使って定義していま
 
     class OriginalPredictor(chainer.Chain):
 
+次にクラスの中にニューラルネットワークを使うための初期化処理をする関数initialize()を書いていきます。
+
+.. code-block:: python
+
+    import chainer
+
+    class OriginalPredictor(chainer.Chain):
+        def initialize(self): # selfは生成したOriginalPredictorの実体を表す。
+
+まずは継承したクラスchainer.Chainの機能を使った初期化をします。
+
+.. code-block:: python
+
+    import chainer
+
+    class OriginalPredictor(chainer.Chain):
+        def initialize(self): # selfは生成したOriginalPredictorの実体を表す。
+            super(OriginalPredictor, self).__init__() # superでchainer.Chainの実体を作って、__init__()関数で初期化
+
+さらにニューラルネットワークで使う層を定義していきます。ここではすべて全結合層という層で定義します。
+
+全結合層を使うときにいちいちchainer.links.Linear()などと打つ必要があります。しかしいちいち打つのは面倒です。
+
+それを省略して使うために以下の定義をimport chainerの次に追加しておきましょう。
+
+.. code-block:: python
+
+    import chainer.links as L
+
+全結合層の定義では入力の個数と出力の個数を引数に取りますが、入力の個数はChainerが推測して当てはめてくれます。
+
+そのため入力の個数にはNoneという何もないという意味の値を入れます。出力の個数は適当に決めておきます。
+
+.. raw:: latex
+
+    \clearpage
+
+.. code-block:: python
+
+    import chainer
+
+    class OriginalPredictor(chainer.Chain):
+        def initialize(self): # selfは生成したOriginalPredictorの実体を表す。
+            """
+            super()で継承したchainer.Chainの実体を作り、
+            __init__()関数で初期化
+            """
+            super(OriginalPredictor, self).__init__()
+            with self.init_scope():
+            self.l1 = L.Linear(None, 100)
+            self.l2 = L.Linear(None, 100)
+            self.l3 = L.Linear(None, 1)
+
+上では使う層の定義を書いたので、次は層をどのような順番で呼び出すのかを書いていきます。
+
+入力をxとして以下のような関数をクラスの中に追加しましょう。
+
+.. code-block:: python
+
+    def call(self, x):
+        h1 = self.l1(x)
+        h2 = self.l2(h1)
+        y = self.l3(h2)
+        return y
+
+このままではちゃんと学習できないため層と層の間にrelu関数というものを追加していきます。
+
+relu関数を簡単に使うためにimport文に以下の文を追加しましょう。
+
+.. code-block:: python
+
+    import chainer.functions as F
+
+そして各層にReLU関数をはさんでいきます。このとき出力yにはReLU関数をはさまないことに注意してください。
+
+.. code-block:: python
+
+    def call(self, x):
+        h1 = F.relu(self.l1(x))
+        h2 = F.relu(self.l2(h1))
+        y = self.l3(h2) # 最後は出力のためReLU関数は追加しなくていい。
+        return y
+
+.. column:: ReLU関数について
+
+    ReLU関数は入力をxとして max(0,x) を出力する関数です。そのため取る値は0以上の値になるため、
+
+    最終的な出力が実数全体を対象とする場合を考慮して、最後だけReLU関数を追加しません。

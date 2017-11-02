@@ -25,7 +25,7 @@ class SimpleRegression(chainer.Chain):
     """
     ニューラルネットワークを進めていくためのクラスです。
     デフォルトではSimplePredictorを推論器に使い
-    回帰的に実数の値を返す関数を学習するようになっています。
+    実数の値を返す関数を学習するようになっています。
     """
     def __init__(self, predictor):
         super(SimpleRegression, self).__init__()
