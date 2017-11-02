@@ -9,6 +9,6 @@
 
 この節ではこれの作り方、つまりモデルクラスの作り方を説明していきます。
 
-.. include:: modelclass/struct_modelclass.sub_rst
+.. include:: modelclass/initialize.sub_rst
 
-.. include:: modelclass/
+.. include:: modelclass/call.sub_rst

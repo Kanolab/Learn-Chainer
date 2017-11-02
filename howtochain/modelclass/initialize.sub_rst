@@ -1,4 +1,4 @@
-推論器の層の構成
+推論器の層の定義
 -----------------------------
 
 ここからは推論器を構成するPythonのclass（以下では単にクラスと呼びます）を定義していきます。
@@ -84,39 +84,3 @@ main関数の定義は :samp:`def` キーワードを使って定義していま
             self.l1 = L.Linear(None, 100)
             self.l2 = L.Linear(None, 100)
             self.l3 = L.Linear(None, 1)
-
-上では使う層の定義を書いたので、次は層をどのような順番で呼び出すのかを書いていきます。
-
-入力をxとして以下のような関数をクラスの中に追加しましょう。
-
-.. code-block:: python
-
-    def call(self, x):
-        h1 = self.l1(x)
-        h2 = self.l2(h1)
-        y = self.l3(h2)
-        return y
-
-このままではちゃんと学習できないため層と層の間にrelu関数というものを追加していきます。
-
-relu関数を簡単に使うためにimport文に以下の文を追加しましょう。
-
-.. code-block:: python
-
-    import chainer.functions as F
-
-そして各層にReLU関数をはさんでいきます。このとき出力yにはReLU関数をはさまないことに注意してください。
-
-.. code-block:: python
-
-    def call(self, x):
-        h1 = F.relu(self.l1(x))
-        h2 = F.relu(self.l2(h1))
-        y = self.l3(h2) # 最後は出力のためReLU関数は追加しなくていい。
-        return y
-
-.. column:: ReLU関数について
-
-    ReLU関数は入力をxとして max(0,x) を出力する関数です。そのため取る値は0以上の値になるため、
-
-    最終的な出力が実数全体を対象とする場合を考慮して、最後だけReLU関数を追加しません。
