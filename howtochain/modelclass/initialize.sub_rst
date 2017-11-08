@@ -5,9 +5,7 @@
 
 まずは推論機のためのディレクトリを作っておきましょう。ここではoriginalディレクトリとします。
 
-では早速、推論器そのもののクラスを定義しましょう。今は詳しくは説明しませんが、ここではニューラルネットワークで使う層というものを定義していきます。
-
-そのためにまずクラスを定義するためのファイルmodel.pyを作っておきます。
+では早速、推論器そのもののクラスを定義します。まずクラスを定義するためのファイルmodel.pyを作っておきます。
 
 main関数の定義は :samp:`def` キーワードを使って定義していました。
 
@@ -16,30 +14,41 @@ main関数の定義は :samp:`def` キーワードを使って定義していま
     def main():
         ...
 
-クラスの定義は :samp:`class` キーワードを使って定義します。
+クラスの定義は :samp:`class` キーワードを使って定義します。クラスは関数と同じように定義しただけでは使えません。
+
+クラスを使用するためにはその実体（インスタンスと呼ぶ）を作る必要がありますが、今はまだ定義するだけで大丈夫です。
 
 .. code-block:: python
 
     class OriginalPredictor():
         
-このままではChainerの機能を使えないので、まずはChainerをインポートします。
+さて、このクラスをChainerで使うためにはクラスの中にChainerで使うために必須となってくる関数や変数を定義しなければいけません。
 
-次にOriginalPredictorクラスがChainerのクラスchainer.Chainを継承するようにします。
+もちろんそういった関数や変数を直接コピーして貼り付けることで、使うことも出来ますがあまりいい方法とは言えません。
 
-.. code-block:: python
+そこで必要な関数や変数を予め定義してあるクラスから受け継ぐ継承という機能を使います。
 
-    import chainer
-
-    class OriginalPredictor(chainer.Chain):
-
-次にクラスの中にニューラルネットワークを使うための初期化処理をする関数initialize()を書いていきます。
+今回推論機として使うための機能はchainer.Chainというクラスで定義されているのでこれを継承することにします。
 
 .. code-block:: python
 
     import chainer
 
     class OriginalPredictor(chainer.Chain):
-        def initialize(self): # selfは生成したOriginalPredictorの実体を表す。
+
+初期化処理をする関数はchainer.Chainにも書いてありますが、これだけでは層の定義などが出来ないため、新たに定義する必要があります。
+
+そこで初期化処理をする関数としてクラスの中にニューラルネットワークを使うための初期化処理をする関数__init__()を書いていきます。
+
+.. code-block:: python
+
+    import chainer
+
+    class OriginalPredictor(chainer.Chain):
+        """
+        クラスの中で__init__()関数を定義しておくと、それがインスタンス作成直後に呼び出されるようになる。
+        """
+        def __init__(self): # selfは生成したOriginalPredictorの実体を表す。
 
 まずは継承したクラスchainer.Chainの機能を使った初期化をします。
 
@@ -48,39 +57,45 @@ main関数の定義は :samp:`def` キーワードを使って定義していま
     import chainer
 
     class OriginalPredictor(chainer.Chain):
-        def initialize(self): # selfは生成したOriginalPredictorの実体を表す。
-            super(OriginalPredictor, self).__init__() # superでchainer.Chainの実体を作って、__init__()関数で初期化
+        def __init__(self): # selfは生成したOriginalPredictorの実体を表す。
+            """
+            継承元のクラスはsuper().__init__()を使うことで継承先のクラスの初期化処理を使うことが出来る。
+            """
+            super(OriginalPredictor, self).__init__()
 
-さらにニューラルネットワークで使う層を定義していきます。ここではすべて全結合層という層で定義します。
+さらにニューラルネットワークで使う層を定義していきます。層で使うための関数（以下同様に、Pythonの関数と層の関数などは区別せずに関数と呼ぶことに注意すること）
+はPythonのクラスとして定義する必要があります。
 
-全結合層を使うときにいちいちchainer.links.Linear()などと打つ必要があります。しかしいちいち打つのは面倒です。
+しかし、ニューラルネットワークの層で使う関数はほぼ決まったものであり、それはchainerではLinkというクラスを継承してすでにchainer.links下に定義されています。
 
-それを省略して使うために以下の定義をimport chainerの次に追加しておきましょう。
+今回はその中でもLinear関数というクラスを使って層を定義していきます。またLinear関数で定義された層をニューラルネットワークでは全結合層と呼びます。
 
-.. code-block:: python
+全結合層の中の処理についてはここでは省きますが、その入出力はそれぞれ任意の数の実数となります。
 
-    import chainer.links as L
-
-全結合層の定義では入力の個数と出力の個数を引数に取りますが、入力の個数はChainerが推測して当てはめてくれます。
-
-そのため入力の個数にはNoneという何もないという意味の値を入れます。出力の個数は適当に決めておきます。
-
-.. raw:: latex
-
-    \clearpage
+Linear関数のインスタンスを作るときは第一引数に入力の個数を第二引数に出力の個数を入れます。ただし、入力の個数はChainerが勝手に類推してくれるため出力の個数だけを決めておけばいいです。
 
 .. code-block:: python
 
     import chainer
+    import chainer.links as L # 慣用的にchainer.linksをLとだけ書けば使えるようにインポートする。
 
     class OriginalPredictor(chainer.Chain):
-        def initialize(self): # selfは生成したOriginalPredictorの実体を表す。
+        def __init__(self): # selfは生成したOriginalPredictorの実体を表す。
             """
             super()で継承したchainer.Chainの実体を作り、
             __init__()関数で初期化
             """
             super(OriginalPredictor, self).__init__()
             with self.init_scope():
-            self.l1 = L.Linear(None, 100)
-            self.l2 = L.Linear(None, 100)
-            self.l3 = L.Linear(None, 1)
+                self.l1 = L.Linear(None, 100)
+                self.l2 = L.Linear(None, 100)
+                self.l3 = L.Linear(None, 1)
+
+.. column:: with文について
+
+    Pythonには開始処理の関数を呼び出し、そのあとにそれを利用する処理を行い、最後に終了処理の関数を呼び出すという一連の処理をすることがあります。
+
+    with文はそういった処理を扱うための文で、まずはじめにwith文で開始処理が正常に行われたら、その中の処理を行い、その処理から抜けたら終了処理を行うという仕組みになっています。
+
+    ここではself.init_scope()で開始処理をして、そのあとに層の定義、最後に暗黙的に終了処理を行っているという流れになっています。
+

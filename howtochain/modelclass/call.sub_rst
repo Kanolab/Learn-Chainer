@@ -7,29 +7,34 @@
 
 .. code-block:: python
 
-    def call(self, x):
+    def __call__(self, x):
         h1 = self.l1(x)
         h2 = self.l2(h1)
         y = self.l3(h2)
         return y
 
-このままではちゃんと学習できないため層と層の間に活性化関数というものを追加していきます。
+このままでも学習することは可能ですが、通常は層の出力に活性化関数を適用します。
 
-今回は活性化関数にReLU関数というものを使います。全結合層を定義した時と同じように、ReLU関数を簡単に使うためにコードの最初のほうに以下の文を追加しましょう。
+今回は活性化関数にReLU関数というものを用いてみます。例のごとく、Chainerには予めchainer.functionsに活性化関数などの定義がなされているため、これを活用します。
+
+各層の出力にReLU関数を適用していきます。このとき出力yにはReLU関数をはさまないことに注意してください。
 
 .. code-block:: python
 
+    ...
     import chainer.functions as F
 
-そして各層にReLU関数をはさんでいきます。このとき出力yにはReLU関数をはさまないことに注意してください。
-
-.. code-block:: python
-
-    def call(self, x):
+    def __call__(self, x):
         h1 = F.relu(self.l1(x))
         h2 = F.relu(self.l2(h1))
         y = self.l3(h2) # 最後は出力のためReLU関数は追加しなくていい。
         return y
+
+.. column:: 恒等関数
+
+    実は最初の状態、活性関数を適用していない用に見える状態でも、恒等関数という値をそのまま返すという関数を適用しているのと同じになります。
+
+    恒等関数は :math:`f(x)=x` で表されます。
 
 .. column:: ReLU関数について
 

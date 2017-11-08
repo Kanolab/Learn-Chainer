@@ -1,0 +1,62 @@
+推論器の評価クラス
+--------------------------
+
+続いて、モデルクラスを評価して学習を進めていくPythonのクラスを作成していきます。
+
+今回は実数が解となる関数の近似を考えて回帰（Regression）の損失関数を使って評価クラスを作ります。
+
+モデルクラスのクラスと同じようにまずはクラスを初期化する関数を書きます。同じソースコードの中に書いていきましょう。
+
+.. code-block:: python
+
+    class OriginalRegression(chainer.Chain):
+        """
+        クラスの中で__init__()関数を定義しておくと、それがインスタンス作成直後に呼び出されるようになる。
+        """
+        def __init__(self): # selfは生成したOriginalPredictorの実体を表す。
+
+評価クラスに推論器のモデルクラスのインスタンスを渡して、それを変数として保持しておくように設定しておきます。
+
+.. code-block:: python
+
+    import chainer
+
+    class OriginalRegression(chainer.Chain):
+        def __init__(self, predictor): # 初期化関数の引数を増やしておく。
+            super(OriginalRegression, self).__init__()
+            with self.init_scope():
+                self.predictor = predictor # selfはOriginalRegressionのインスタンス自体を指す。
+
+次に評価クラスどのように学習を進めていくかについての関数を書いていきます。
+
+まずは推論機に入力を入れた結果を取り出して、変数yに入れておきましょう。
+
+.. code-block:: python
+
+    def __call__(self, x, t):
+        y = self.predictor(x)
+
+まずは損失関数を追加しておきます。このときついでに評価値を出してくれる関数も追加しておきます。
+
+さらにchainer.reportの機能を使うと後ほど結果を表示できるようになるのでこれも加えておきましょう。
+
+.. code-block:: python
+
+    def __call__(self, x, t):
+        y = self.predictor(x)
+        loss =  F.mean_squared_error(y, t)
+        r2_score = F.r2_score(y, t)
+        chainer.report({'loss': loss, 'r2_score': r2_score}, self)
+
+最後にニューラルネットワークでは損失関数の出力を用いて学習を進めるので、それを戻り値として返しておくということをします。
+
+.. code-block:: python
+
+    def __call__(self, x, t):
+        y = self.predictor(x)
+        loss =  F.mean_squared_error(y, t)
+        r2_score = F.r2_score(y, t)
+        chainer.report({'loss': loss, 'r2_score': r2_score}, self)
+        return loss
+
+以上までで、学習を進めるクラスの構成も完了しました。

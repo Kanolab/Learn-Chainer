@@ -1,3 +1,5 @@
+# -*- coding=utf8 -*-
+
 import chainer
 import chainer.links as L
 import chainer.functions as F
@@ -38,4 +40,3 @@ class SimpleRegression(chainer.Chain):
         r2_score = F.r2_score(y, t)
         chainer.report({'loss': loss, 'r2_score': r2_score}, self)
         return loss
-
